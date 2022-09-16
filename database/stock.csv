@@ -1,0 +1,4 @@
+index,item_id,price,quantity_available,quantity_reserved
+0,111,10_00,5,0
+1,222,5_00,5,0
+2,333,4_00,3,0
