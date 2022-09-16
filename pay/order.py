@@ -16,12 +16,13 @@ def order_num():
     in total. It also makes sure that we don't have duplicate order numbers. 
     """
     # start by retreiving latest order, and appending a new order
-    with open("/home/dante/own_work/payment_system/database/order_history.txt", 'r') as order_history:
+    # /home/dante/own_work/payment_system/database/order_history.txt
+    with open("database/order_history.txt", 'r') as order_history:
         order_list = order_history.readlines()
         orders_sum = len(order_list)
         # print(orders_sum)
 
-    with open("/home/dante/own_work/payment_system/database/order_history.txt", 'a') as order_history:
+    with open("database/order_history.txt", 'a') as order_history:
         order_history.write(str(orders_sum+1)+"\n")
     return orders_sum+1
 
@@ -36,7 +37,8 @@ def reserve_in_stock(id : int, quantity : int):
     -------
     reserve_flag : was the reservation successful?
     """
-    stock = pd.read_csv("/home/dante/own_work/payment_system/database/stock.csv",
+    # /home/dante/own_work/payment_system/database/stock.csv
+    stock = pd.read_csv("database/stock.csv",
                                                         sep = ",",
                                                         header = 0,
                                                         index_col = 0)
@@ -52,7 +54,7 @@ def reserve_in_stock(id : int, quantity : int):
         reserve_flag = True
         stock.at[index_position_of_item,'quantity_reserved'] += quantity
         stock.at[index_position_of_item,'quantity_available'] -= quantity
-        stock.to_csv("/home/dante/own_work/payment_system/database/stock.csv",
+        stock.to_csv("database/stock.csv",
                                             sep = ",")
 
     
@@ -70,14 +72,14 @@ def release_in_stock(id : int, quantity : int):
     -------
     release_flag : was the release successful?
     """
-    stock = pd.read_csv("/home/dante/own_work/payment_system/database/stock.csv",
+    stock = pd.read_csv("database/stock.csv",
                                                 sep = ",",
                                                 header = 0,
                                                 index_col = 0)
     index_position_of_item = stock.index[stock.item_id == id].to_list()[0]
     stock.at[index_position_of_item,'quantity_available'] += quantity
     stock.at[index_position_of_item,'quantity_reserved'] -= quantity
-    stock.to_csv("/home/dante/own_work/payment_system/database/stock.csv",
+    stock.to_csv("database/stock.csv",
                                             sep = ",")
     release_flag = True
 
@@ -93,7 +95,7 @@ def exists_in_stock(id : int):
     -------
     exists_flag : does the id exist in our stock?
     """
-    stock_available_ids = pd.read_csv("/home/dante/own_work/payment_system/database/stock.csv",
+    stock_available_ids = pd.read_csv("database/stock.csv",
                                             sep=",",
                                             header = 0,
                                             index_col=0).iloc[:,0].astype(int).to_list()
@@ -116,7 +118,7 @@ def getprice(id : int):
     -------
     price : unit price of the item
     """
-    stock = pd.read_csv("/home/dante/own_work/payment_system/database/stock.csv",
+    stock = pd.read_csv("database/stock.csv",
                                                 sep = ",",
                                                 header = 0,
                                                 index_col = 0)
