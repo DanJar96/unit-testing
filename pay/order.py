@@ -16,7 +16,6 @@ def order_num():
     in total. It also makes sure that we don't have duplicate order numbers. 
     """
     # start by retreiving latest order, and appending a new order
-    # /home/dante/own_work/payment_system/database/order_history.txt
     with open("database/order_history.txt", 'r') as order_history:
         order_list = order_history.readlines()
         orders_sum = len(order_list)
@@ -37,7 +36,6 @@ def reserve_in_stock(id : int, quantity : int):
     -------
     reserve_flag : was the reservation successful?
     """
-    # /home/dante/own_work/payment_system/database/stock.csv
     stock = pd.read_csv("database/stock.csv",
                                                         sep = ",",
                                                         header = 0,

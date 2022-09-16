@@ -1,3 +1,8 @@
+###################################################################
+# python3 -m pytest pay/tests/test_order_and_lineitem.py -v --cov #
+# coverage html                                                   #
+###################################################################
+
 #%%
 
 import os, sys
@@ -8,7 +13,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 #%%
 
-from order import Order, OrderStatus
+from order import Order, OrderStatus, getprice
 
 #%%
 
@@ -39,6 +44,24 @@ def test_subtotal():
     ord.cancel_order()
     assert ord.order_status == OrderStatus.CANCELLED
     
+
+def test_get_price_of_nonexistent():
+    """
+    What happens if we try and retreive the price of an item
+    that doesn't exist in our stock?
+    """    
+    assert getprice(444) == 0
+
+def test_add_nonexistent_item():
+    """
+    What happens if we go and try to add a item that doesn't exist
+    in our stock?
+    """
+    ord = Order()
+    ord.add_lineitem(444,10)
+    assert len(ord.order_cart) == 0
+    ord.cancel_order()
+
 def test_order_manipulation():
     """
     What if we try and add a negative quantity of a good?
@@ -50,7 +73,10 @@ def test_order_manipulation():
     ord.add_lineitem(111,1)
     assert len(ord.order_cart) == 1
     assert ord.subtotal == 10
+    ord.modify_lineitem(111,2)
+    assert ord.order_cart[111].quantity == 3
     ord.cancel_order()
+
 
 def test_modify_nonexistent_order():
     """
