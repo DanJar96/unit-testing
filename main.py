@@ -6,8 +6,7 @@ from pay.order import *
 def main():
     """
     This function executes a basic order, whereby a customer
-    enters into a store, adds things to their order cart, 
-    and tries to pay for their order with a payment card.
+    enters into a store and adds things to their order cart
     """
 
     a = Order()
